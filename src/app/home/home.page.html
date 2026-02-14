@@ -1,0 +1,61 @@
+﻿<ion-header>
+  <ion-toolbar>
+    <ion-title>BLE Monitor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="network.isOnline$ | async; else offlineState">
+    <p *ngIf="bluetooth.isBluetoothOn$ | async">
+      Bluetooth is ON
+    </p>
+
+    <ng-container *ngIf="!(bluetooth.isBluetoothOn$ | async)">
+      <p>
+        Bluetooth is OFF. Please turn on Bluetooth.
+      </p>
+      <ion-button
+        expand="block"
+        (click)="enableBluetoothFromApp()"
+        [disabled]="isEnablingBluetooth">
+        {{ isEnablingBluetooth ? 'Turning On Bluetooth...' : 'Turn On Bluetooth' }}
+      </ion-button>
+    </ng-container>
+
+    <p *ngIf="(ble.isScanning$ | async) && !(ble.isConnected$ | async)">
+      Scanning for SMBLEWS...
+    </p>
+
+    <p *ngIf="!(ble.isConnected$ | async)">
+      Not Connected
+    </p>
+
+    
+
+    <ion-card *ngIf="ble.deviceData$ | async as d">
+      <ion-card-content>
+        <p><strong>Name:</strong> {{ d.name }}</p>
+        <p><strong>ID:</strong> {{ d.id }}</p>
+        <p><strong>RSSI:</strong> {{ d.rssi }}</p>
+        <p><strong>Status:</strong> {{ d.status }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-template #offlineState>
+    <p>Internet is required to use this app.</p>
+  </ng-template>
+
+  <ion-card *ngIf="ble.isConnected$ | async">
+      <ion-card-content>
+        <p><strong>Live Weight:</strong> {{ (ble.liveWeight$ | async | number:'1.2-2') ?? '--' }}</p>
+        <p><strong>Final Weight:</strong> {{ (ble.finalWeight$ | async | number:'1.2-2') ?? '--' }}</p>
+        <ion-button
+          expand="block"
+          (click)="captureWeight()"
+          [disabled]="(ble.liveWeight$ | async) === null">
+          Capture Final Weight
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+</ion-content>

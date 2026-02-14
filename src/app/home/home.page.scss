@@ -1,0 +1,58 @@
+/* Page wrapper */
+.wrapper {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Desktop / tablet support */
+@media (min-width: 768px) {
+  .wrapper {
+    max-width: 600px;
+  }
+}
+
+/* Status card */
+ion-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+}
+
+ion-item {
+  --padding-start: 12px;
+  font-size: 14px;
+}
+
+/* BLE searching section */
+.ble-search {
+  text-align: center;
+  margin: 24px 0;
+  color: var(--ion-color-medium);
+}
+
+.ble-search ion-spinner {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 8px;
+}
+
+/* Connected device card */
+.ble-details {
+  border-left: 4px solid var(--ion-color-success);
+}
+
+/* Card content text */
+.ble-details p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+/* Header title polish */
+ion-title {
+  font-weight: 600;
+}
+
+/* Subtle elevation */
+ion-card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
